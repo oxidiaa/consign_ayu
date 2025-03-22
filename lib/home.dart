@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
           ),
           CircleAvatar(
             backgroundImage:
-                AssetImage("assets/profile.jpg"), // Ganti dengan gambar profil
+                AssetImage("img/bginfo.png"), // Ganti dengan gambar profil
           ),
           const SizedBox(width: 10),
         ],
@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             // Grafik Dummy
             Expanded(
-              child: Image.asset("assets/chart.png",
+              child: Image.asset("img/bginfo.png",
                   fit: BoxFit.cover), // Ganti dengan grafik
             ),
           ],
