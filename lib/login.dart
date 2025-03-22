@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home.dart';
 
 void main() {
   runApp(const ConsignAyuApp());
@@ -23,15 +24,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Jika validasi berhasil, pindah ke halaman beranda
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     }
   }
@@ -49,126 +50,19 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 40),
-
-                // Logo Placeholder
-                Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.green[800],
-                ),
-
+                _buildLogo(),
                 const SizedBox(height: 20),
-
-                // Nama aplikasi
-                const Text(
-                  "CONSIGNAYU",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Input Email
-                Row(
-                  children: [
-                    const Text("Email    : ", style: TextStyle(fontSize: 16)),
-                    Expanded(
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Email tidak boleh kosong";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
+                // _buildAppTitle(),
+                // const SizedBox(height: 30),
+                _buildEmailInput(),
                 const SizedBox(height: 15),
-
-                // Input Password
-                Row(
-                  children: [
-                    const Text("Password : ", style: TextStyle(fontSize: 16)),
-                    Expanded(
-                      child: TextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password tidak boleh kosong";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
+                _buildPasswordInput(),
                 const SizedBox(height: 10),
-
-                // Forgot Password
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ),
-
+                _buildForgotPassword(),
                 const SizedBox(height: 10),
-
-                // Tombol Login
-                ElevatedButton(
-                  onPressed: _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[800],
-                    minimumSize: const Size(double.infinity, 45),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-
+                _buildLoginButton(),
                 const SizedBox(height: 15),
-
-                // Sign Up
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an Account? "),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Text(
-                        "Sign up",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2E7D32),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                _buildSignUpOption(),
               ],
             ),
           ),
@@ -176,23 +70,144 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
 
-// Halaman Beranda setelah login berhasil
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-        backgroundColor: Colors.green[800],
-      ),
-      body: const Center(
-        child: Text(
-          "Selamat datang di aplikasi ConsignAyu!",
-          style: TextStyle(fontSize: 18),
+  // Widget _buildLogo() {
+  //   return Container(
+  //     width: 80,
+  //     height: 80,
+  //     color: Colors.green[800],
+  //   );
+  // }
+
+  Widget _buildLogo() {
+    return Container(
+      width: 250,
+      height: 250,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image:
+              AssetImage('img/LogoAyu.png'), // Sesuaikan dengan path logo Anda
+          fit: BoxFit.cover,
         ),
       ),
     );
   }
+
+  // Widget _buildAppTitle() {
+  //   return const Text(
+  //     "CONSIGNAYU",
+  //     style: TextStyle(
+  //       fontSize: 22,
+  //       fontWeight: FontWeight.bold,
+  //       color: Colors.black,
+  //     ),
+  //   );
+  // }
+
+  Widget _buildEmailInput() {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: emailController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Email",
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            ),
+            validator: (value) => value == null || value.isEmpty
+                ? "Email tidak boleh kosong"
+                : null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPasswordInput() {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Password",
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            ),
+            validator: (value) => value == null || value.isEmpty
+                ? "Password tidak boleh kosong"
+                : null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildForgotPassword() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () {},
+        child: const Text(
+          "Forgot Password?",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return ElevatedButton(
+      onPressed: _login,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green[800],
+        minimumSize: const Size(double.infinity, 45),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      ),
+      child: const Text(
+        "Login",
+        style: TextStyle(color: Colors.white, fontSize: 16),
+      ),
+    );
+  }
+
+  Widget _buildSignUpOption() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an Account? "),
+        GestureDetector(
+          onTap: () {},
+          child: const Text(
+            "Sign up",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2E7D32),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
+
+// Halaman Beranda setelah login berhasil
+// class HomeScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Home"),
+//         backgroundColor: Colors.green[800],
+//       ),
+//       body: const Center(
+//         child: Text(
+//           "Selamat datang di aplikasi ConsignAyu!",
+//           style: TextStyle(fontSize: 18),
+//         ),
+//       ),
+//     );
+//   }
+// }
